@@ -29,7 +29,7 @@ class BoardsAPITest < ActionDispatch::IntegrationTest
       assert_match /test card/, response.body
     end
 
-    test 'returns a 422 for invalid board' do
+    test 'returns a 404 for invalid board' do
       get '/api/boards/1',
         headers: { 'Accept' => 'application/json' }
 
