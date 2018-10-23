@@ -9,6 +9,34 @@ class BoardsAPITest < ActionDispatch::IntegrationTest
     end
   end
 
+  class GetBoardTest < ActionDispatch::IntegrationTest
+    test 'returns nested json for board with list and card' do
+      b = Board.new({title: 'Test board'})
+      b.save
+      l = b.lists.create({title: 'test list'})
+      l.save
+      c = l.cards.create({title: 'test card', labels: ['yellow']})
+      c.save
+      id = b.id
+
+      get "/api/boards/#{id}",
+        headers: { 'Accept' => 'application/json' }
+
+      assert_match /lists/, response.body
+      assert_match /labels/, response.body
+      assert_match /Test board/, response.body
+      assert_match /test list/, response.body
+      assert_match /test card/, response.body
+    end
+
+    test 'returns a 422 for invalid board' do
+      get '/api/boards/1',
+        headers: { 'Accept' => 'application/json' }
+
+      assert_response 404
+    end
+  end
+
   class PostBoardsTest < ActionDispatch::IntegrationTest
     class ValidDataTest < ActionDispatch::IntegrationTest
       test "creates a new board" do
