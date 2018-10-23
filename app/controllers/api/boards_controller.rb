@@ -21,7 +21,7 @@ class Api::BoardsController < ApplicationController
   def show
     @board = Board.find(params[:id])
 
-  resuce ActiveRecord::RecordNotFound
+  rescue ActiveRecord::RecordNotFound
     @error = 'No board with that id exists'
     render 'api/shared/error', status: 404
   end
