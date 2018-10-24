@@ -15,11 +15,11 @@ class BoardContainer extends React.Component {
     store.dispatch(actions.fetchBoard(id));
   }
 
-  render (
+  render() {
     return (
       <p>{id}</p>
     )
-  )
+  }
 }
 
 export default BoardContainer;
