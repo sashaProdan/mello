@@ -20,6 +20,13 @@ class BoardContainer extends React.Component {
     const id = Number(this.props.match.params.id);
     const store = this.context.store;
     const board = store.getState().boards.find(board => board.id === id);
+    const lists = store.getState().lists.filter(list => list.board_id === id);
+    const listComponents = lists.map(list => (
+      <List
+        key={list.id}
+        boardId={list.board_id}
+      />
+  ));
 
     return (
       <div>
@@ -37,7 +44,7 @@ class BoardContainer extends React.Component {
         <main>
           <div id="list-container" className="list-container">
             <div id="existing-lists" className="existing-lists">
-              <List />
+              {listComponents}
             </div>
           </div>
         </main>
