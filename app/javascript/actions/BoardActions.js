@@ -32,10 +32,10 @@ export function fetchBoards() {
   };
 }
 
-export function fetchBoard() {
+export function fetchBoard(id) {
   return function(dispatch) {
     dispatch(fetchBoardRequest());
-    apiClient.getBoard(board => dispatch(fetchBoardSuccess(board)));
+    apiClient.getBoard(id, board => dispatch(fetchBoardSuccess(board)));
   };
 }
 
