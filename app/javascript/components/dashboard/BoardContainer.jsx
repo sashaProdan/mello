@@ -24,6 +24,7 @@ class BoardContainer extends React.Component {
     const listComponents = lists.map(list => (
       <List
         key={list.id}
+        id={list.id}
         boardId={list.board_id}
       />
   ));
