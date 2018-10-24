@@ -7,5 +7,7 @@ export default function listsReducer(state = [], action) {
     })
 
     return excludedLists.concat(newListWithoutCards);
+  } else {
+    return state;
   }
 }
