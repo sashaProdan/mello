@@ -22,11 +22,9 @@ list2 = board.lists.create({
 })
 list2.save
 
-list1.cards.create({ title: "Card 1" }).save
-list1.cards.create({ title: "Card 2" }).save
+list1.cards.create({ title: "Card 1", description: "This is a description", labels: ['yellow', 'red'] }).save
+list1.cards.create({ title: "Card 2", description: "Welcome to Capstone", labels: ['purple', 'yellow', 'red', 'blue'] }).save
 
-list2.cards.create({ title: "Card 1" }).save
-list2.cards.create({ title: "Card 2" }).save
-list2.cards.create({ title: "Card 3" }).save
-
-
+list2.cards.create({ title: "Card 1", description: 'Yet another card' }).save
+list2.cards.create({ title: "Card 2", labels: ['blue', 'red', 'green'] }).save
+list2.cards.create({ title: "Card 3", description: 'teamToo()', labels: ['blue', 'purple'] }).save
