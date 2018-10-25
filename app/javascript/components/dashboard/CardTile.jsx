@@ -8,15 +8,15 @@ class CardTile extends React.Component {
 
   render() {
     const card = this.context.store.getState().cards.find(card => card.id === this.props.id);
-    const labels = card.labels.map(label => (
-      <div className={"card-label" + label + "colorblindable"}></div>
+    const labels = card.labels.map((label, i) => (
+      <div key={i} className={"card-label " + label + " colorblindable"}></div>
     ));
 
     return (
       <div className="card-background">
           <div className="card "><i className="edit-toggle edit-icon sm-icon"></i>
               <div className="card-info">
-                  {card.labels.length > 0 ? labels : ''}
+                  {labels}
                   <p>{card.description}</p>
               </div>
               <div className="card-icons"><i className="clock-icon sm-icon overdue-recent completed">Aug 4</i><i className="description-icon sm-icon"></i><i className="comment-icon sm-icon"></i>
