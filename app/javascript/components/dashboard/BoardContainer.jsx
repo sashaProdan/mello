@@ -2,7 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import * as actions from '../../actions/BoardActions';
-import List from './List'
+import List from './List';
+import ListContainer from './ListContainer';
 
 class BoardContainer extends React.Component {
   static contextTypes = {
@@ -20,14 +21,7 @@ class BoardContainer extends React.Component {
     const id = Number(this.props.match.params.id);
     const store = this.context.store;
     const board = store.getState().boards.find(board => board.id === id);
-    const lists = store.getState().lists.filter(list => list.board_id === id);
-    const listComponents = lists.map(list => (
-      <List
-        key={list.id}
-        id={list.id}
-        boardId={list.board_id}
-      />
-  ));
+
     if (board) {
       return (
         <div>
@@ -43,11 +37,9 @@ class BoardContainer extends React.Component {
               <i className="sub-icon sm-icon"></i>Subscribed</div>
           </header>
           <main>
-            <div id="list-container" className="list-container">
-              <div id="existing-lists" className="existing-lists">
-                {listComponents}
-              </div>
-            </div>
+            <ListContainer
+              boardId={board.id}
+            />
           </main>
         </div>
       )
