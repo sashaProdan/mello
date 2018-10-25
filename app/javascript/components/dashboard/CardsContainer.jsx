@@ -2,8 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import CardTile from './CardTile';
 
-import * as actions from '../../actions/BoardActions';
-
 class CardsContainer extends React.Component {
   static contextTypes = {
     store: PropTypes.object,

@@ -3,16 +3,10 @@ import PropTypes from 'prop-types';
 import CardsContainer from './CardsContainer';
 import AddCardForm from './AddCardForm';
 
-import * as actions from '../../actions/BoardActions';
-
 class List extends React.Component {
   static contextTypes = {
     store: PropTypes.object,
   };
-
-  componentDidMount() {
-    const store = this.context.store;
-  }
 
   render() {
     const id = this.props.id;
