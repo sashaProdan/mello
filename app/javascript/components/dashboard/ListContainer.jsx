@@ -16,7 +16,9 @@ class ListContainer extends React.Component {
         <ExistingLists
           boardId={id}
         />
-        <AddListForm />
+        <AddListForm
+          boardId={id}
+        />
       </div>
     )
   }
