@@ -14,7 +14,6 @@ export default function listsReducer(state = [], action) {
 
       return state.concat(newList)
     case 'EDIT_LIST_SUCCESS':
-      const excludedLists = state.filter(list => list.id !== action.list.id);
       const list = state.find(list => list.id === action.list.id);
       const updatedList = Object.assign({}, list, {title: action.list.title});
 
