@@ -36,7 +36,13 @@ const apiClient = {
       .then(unwrapData)
       .then(callback)
       .catch(logError);
-  }
+  },
+  editList: function(id, title, callback) {
+    return axios.put(routes.LIST_URL(id), { title: title })
+      .then(unwrapData)
+      .then(callback)
+      .catch(logError);
+  },
 };
 
 export default apiClient;
