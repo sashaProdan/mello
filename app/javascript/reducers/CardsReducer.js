@@ -13,6 +13,17 @@ export default function cardsReducer(state = [], action) {
       newCard.id = Number(newCard.id);
 
       return state.concat(newCard);
+    case 'EDIT_CARD_SUCCESS':
+      const card = state.find(card => card.id === action.card.id);
+      const updatedCard = Object.assign({}, card, {title: action.card.title});
+
+      return state.map(card => {
+        if (card.id === updatedCard.id) {
+          return updatedCard;
+        } else {
+          return card;
+        }
+      });
     default:
       return state;
   }

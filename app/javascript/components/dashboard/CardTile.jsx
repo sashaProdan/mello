@@ -30,21 +30,20 @@ class CardTile extends React.Component {
 
     return (
       <div className="card-background">
-          <div className="card "><i className="edit-toggle edit-icon sm-icon"></i>
-              <div className="card-info">
-                  {labels}
-                  <p>{card.title}</p>
-              </div>
-              <div className="card-icons">
-                {date ? <i className={"clock-icon sm-icon overdue-recent " + dueStatus}>{date}</i> : null}
-                {card.description ? <i className="description-icon sm-icon"></i> : null}
-                <i className="comment-icon sm-icon"></i>
-              </div>
+        <div className="card "><i className="edit-toggle edit-icon sm-icon"></i>
+          <div className="card-info">
+              {labels}
+              <p>{card.title}</p>
           </div>
+          <div className="card-icons">
+            {date ? <i className={"clock-icon sm-icon overdue-recent " + dueStatus}>{date}</i> : ''}
+            {card.description ? <i className="description-icon sm-icon"></i> : ''}
+            {card.comments_count > 0 ? <i className="comment-icon sm-icon"></i> : ''}
+          </div>
+        </div>
       </div>
     )
   }
 }
-
 
 export default CardTile;
