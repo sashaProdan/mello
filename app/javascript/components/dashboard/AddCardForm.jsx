@@ -1,9 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import * as actions from '../../actions/CardActions';
+
 
 class AddCardForm extends React.Component {
+  static contextTypes = {
+    store: PropTypes.object,
+  };
+
   state = {
-    clicked: false,
     fields: {
       title: '',
     }
@@ -15,11 +20,11 @@ class AddCardForm extends React.Component {
 
   resetState() {
     this.setState({
-      clicked: false,
       fields: {
         title: '',
       }
     });
+    this.props.onAddCardForm(false);
   }
 
   handleCancelClick = (e) => {
@@ -28,13 +33,9 @@ class AddCardForm extends React.Component {
     this.resetState();
   }
 
-  handleClick = (e) => {
-    this.setState({ clicked: true });
-  }
-
   handleBlur = (e) => {
     if (e.target.id !== 'add') {
-      this.setState({ clicked: false });
+      this.props.onAddCardForm(false);
     }
   }
 
@@ -46,51 +47,58 @@ class AddCardForm extends React.Component {
     this.setState({ fields });
   }
 
-  render() {
-    const clicked = this.state.clicked;
+  handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      this.handleSubmit(e);
+    }
+  }
+
+  handleSubmit = (e) => {
+    e.preventDefault();
+
+    const id = this.props.listId;
+    const store = this.context.store;
     const title = this.state.fields.title;
 
-    if (clicked) {
-      return (
-        <div className="add-dropdown-active active-card">
-          <div className="card">
-            <div className="card-info"></div>
-            <textarea
-              name="add-card"
-              placeholder="Enter a title for this card..."
-              ref='textarea'
-              onChange={this.handleChange}
-              onBlur={this.handleBlur}
-              value={title}
-            >
-            </textarea>
-            <div className="members"></div>
-          </div>
-          <a
-            id="add"
-            className="button">
-            Add
-          </a>
-          <i
-            className="x-icon icon"
-            onMouseDown={this.handleCancelClick}
+    store.dispatch(actions.createCard(id, title));
+    this.resetState();
+  }
+
+  render() {
+    const title = this.state.fields.title;
+
+    return (
+      <div className="add-dropdown add-bottom active-card">
+        <div className="card">
+          <div className="card-info"></div>
+          <textarea
+            name="add-card"
+            placeholder="Enter a title for this card..."
+            ref='textarea'
+            onChange={this.handleChange}
+            onBlur={this.handleBlur}
+            value={title}
+            onKeyPress={this.handleKeyPress}
           >
-          </i>
-          <div className="add-options"><span>...</span>
-          </div>
+          </textarea>
+          <div className="members"></div>
         </div>
-      )
-    } else {
-      return (
-        <div
-          className="add-card-toggle"
-          data-position="bottom"
-          onClick={this.handleClick}
+        <a
+          id="add"
+          className="button"
+          onMouseDown={this.handleSubmit}
         >
-          Add a card...
+          Add
+        </a>
+        <i
+          className="x-icon icon"
+          onMouseDown={this.handleCancelClick}
+        >
+        </i>
+        <div className="add-options"><span>...</span>
         </div>
-      )
-    }
+      </div>
+    )
   }
 }
 

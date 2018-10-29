@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import CardsContainer from './CardsContainer';
 import AddCardForm from './AddCardForm';
+import AddCardToggle from './AddCardToggle';
 import * as actions from '../../actions/ListActions';
 
 class List extends React.Component {
@@ -10,6 +11,7 @@ class List extends React.Component {
   };
 
   state = {
+    active: false,
     fields: {
       "title": this.context.store.getState().lists.find(list => list.id === this.props.id).title,
     }
@@ -23,6 +25,10 @@ class List extends React.Component {
     this.setState({ fields });
   }
 
+  handleAddCardChange = (active) => {
+    this.setState({ active });
+  }
+
   handleBlur = (e) => {
     const id = this.props.id;
     const store = this.context.store;
@@ -33,10 +39,11 @@ class List extends React.Component {
 
   render() {
     const id = this.props.id;
-    const {title} = this.state.fields
+    const active = this.state.active ? 'add-dropdown-active' : ''
+    const { title } = this.state.fields;
 
     return (
-      <div className="list-wrapper">
+      <div className={`list-wrapper ${active}`}>
         <div className="list-background">
           <div className="list">
             <a className="more-icon sm-icon" href=""></a>
@@ -58,13 +65,13 @@ class List extends React.Component {
             <CardsContainer
               listId={id}
             />
-            <div className="add-dropdown add-bottom">
-                <div className="card"><div className="card-info"></div><textarea name="add-card"></textarea><div className="members"></div></div>
-                <a className="button">Add</a><i className="x-icon icon"></i>
-                <div className="add-options"><span>...</span>
-                </div>
-            </div>
-            <AddCardForm />
+            <AddCardForm
+              listId={id}
+              onAddCardForm={this.handleAddCardChange}
+            />
+            <AddCardToggle
+              onAddCardForm={this.handleAddCardChange}
+            />
           </div>
         </div>
       </div>
