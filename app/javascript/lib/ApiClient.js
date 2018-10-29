@@ -38,7 +38,6 @@ const apiClient = {
       .catch(logError);
   },
   createList: function(board_id, title, callback) {
-    console.log(board_id);
     return axios.post(routes.LISTS_INDEX_URL, {
       board_id,
       list: {
@@ -51,6 +50,17 @@ const apiClient = {
   },
   editList: function(id, title, callback) {
     return axios.put(routes.LIST_URL(id), { title: title })
+      .then(unwrapData)
+      .then(callback)
+      .catch(logError);
+  },
+  createCard: function(list_id, title, callback) {
+    return axios.post(routes.CARDS_INDEX_URL, {
+      list_id,
+      card: {
+        title,
+      }
+    })
       .then(unwrapData)
       .then(callback)
       .catch(logError);

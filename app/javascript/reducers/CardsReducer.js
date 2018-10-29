@@ -5,9 +5,14 @@ export default function cardsReducer(state = [], action) {
       const newListWithoutCards = action.board.lists.map( list => {
         const { cards, ...noCards } = list;
         return cards;
-      })
+      });
 
       return excludedCards.concat(...newListWithoutCards);
+    case 'CREATE_CARD_SUCCESS':
+      const newCard = action.card;
+      newCard.id = Number(newCard.id);
+
+      return state.concat(newCard);
     default:
       return state;
   }
