@@ -18,6 +18,14 @@ class Api::CardsController < ApplicationController
     render 'api/shared/error', status: :unprocessable_entity
   end
 
+  def show
+    @card = Card.find(params[:id])
+
+  rescue ActiveRecord::RecordNotFound
+    @error = 'No card with that id exists'
+    render 'api/shared/error', status: 404
+  end
+
   private
 
   def card_params
