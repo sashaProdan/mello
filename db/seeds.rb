@@ -33,21 +33,25 @@ list1.cards.create({
 list1.cards.create({
   title: "Card 2",
   description: "Welcome to Capstone",
-  labels: ['purple', 'yellow', 'red', 'blue']
+  labels: ['purple', 'yellow', 'red', 'blue'],
+  comments: [],
 }).save
 
 list2.cards.create({
   title: "Card 1",
   description: 'Yet another card',
-  due_date: now
+  due_date: now,
+  comments: [],
 }).save
 list2.cards.create({
   title: "Card 2",
-  labels: ['blue', 'red', 'green']
+  labels: ['blue', 'red', 'green'],
+  comments: [],
 }).save
 list2.cards.create({
   title: "Card 3",
   description: 'teamToo()',
   labels: ['blue', 'purple'],
-  due_date: now + 5.day
+  due_date: now + 5.day,
+  comments: [],
 }).save
