@@ -1,10 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Route, Switch, BrowserRouter } from 'react-router-dom';
 
 import * as actions from '../../actions/BoardActions';
 import List from './List';
 import ListContainer from './ListContainer';
 import BoardHeader from './BoardHeader';
+import CardContainer from './CardContainer';
 
 class BoardContainer extends React.Component {
   static contextTypes = {
@@ -30,6 +32,7 @@ class BoardContainer extends React.Component {
             title={board.title}
           />
           <main>
+            <Route to={`/cards/${id}`} exact component={CardContainer} />
             <ListContainer
               boardId={board.id}
             />

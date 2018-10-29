@@ -1,4 +1,5 @@
 import React from 'react';
+import { Route, Link, Switch } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import CardTile from './CardTile';
 
@@ -11,10 +12,15 @@ class CardsContainer extends React.Component {
     const id = this.props.listId;
     const cards = this.context.store.getState().cards.filter(card => card.list_id === id);
     const cardComponents = cards.map(card => (
-      <CardTile
+      <Link
+        to={`/cards/${card.id}`}
         key={card.id}
-        id={card.id}
-      />
+      >
+        <CardTile
+          key={card.id}
+          id={card.id}
+        />
+      </Link>
     ));
 
     return(
