@@ -1,19 +1,26 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Route, Switch, BrowserRouter } from 'react-router-dom';
+
+import CardHeader from './CardHeader';
 
 class CardContainer extends React.Component {
+  handleClick = (e) => {
+    console.log('hi');
+  }
+
   render() {
     return (
       <div id="modal-container">
-        <div className="screen"></div>
+        <div
+          className="screen"
+          onClick={this.handleClick}
+        >
+        </div>
         <div id="modal">
           <i className="x-icon icon close-modal"></i>
-          <header>
-            <i className="card-icon icon .close-modal"></i>
-            <textarea className="list-title" style={{height: '45px'}}>Cards do many cool things. Click on this card to open it and learn more...</textarea>
-            <p>in list <a className="link">Stuff to try (this is a list)</a><i className="sub-icon sm-icon"></i>
-            </p>
-          </header>
+          <CardHeader />
+
           <section className="modal-main">
             <ul className="modal-outer-list">
               <li className="details-section">

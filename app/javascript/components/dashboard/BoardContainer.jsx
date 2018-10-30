@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Route, Switch, BrowserRouter } from 'react-router-dom';
 
 import * as actions from '../../actions/BoardActions';
 import List from './List';
@@ -21,9 +20,17 @@ class BoardContainer extends React.Component {
   }
 
   render() {
+    const isCardShowing = document.URL.split('/')[3] === 'cards';
     const id = Number(this.props.match.params.id);
     const store = this.context.store;
-    const board = store.getState().boards.find(board => board.id === id);
+    let board;
+
+    if (isCardShowing) {
+      const card = store.getState().cards.find(card => card.id === id);
+      board = store.getState().boards.find(board => board.id === card.board_id);
+    } else {
+      board = store.getState().boards.find(board => board.id === id);
+    }
 
     if (board) {
       return (
@@ -32,7 +39,6 @@ class BoardContainer extends React.Component {
             title={board.title}
           />
           <main>
-            <Route to={`/cards/${id}`} exact component={CardContainer} />
             <ListContainer
               boardId={board.id}
             />
