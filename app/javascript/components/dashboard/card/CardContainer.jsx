@@ -47,9 +47,6 @@ class CardContainer extends React.Component {
           <CardMainContainer
             card={card}
           />
-
-
-
           <aside className="modal-buttons">
             <h2>Add</h2>
             <ul>
