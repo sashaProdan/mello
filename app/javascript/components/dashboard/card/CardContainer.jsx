@@ -11,6 +11,10 @@ class CardContainer extends React.Component {
     store: PropTypes.object,
   };
 
+  state = {
+    card: this.context.store.getState().cards.find(card => card.id === Number(this.props.match.params.id)),
+  }
+
   componentDidMount() {
     const id = Number(this.props.match.params.id);
     const store = this.context.store;

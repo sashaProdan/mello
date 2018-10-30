@@ -1,7 +1,7 @@
 export default function cardsReducer(state = [], action) {
   switch (action.type) {
     case 'FETCH_BOARD_SUCCESS':
-      const excludedCards = state.filter(card => card.board_id !== action.board.id);
+      let excludedCards = state.filter(card => card.board_id !== action.board.id);
       const newListWithoutCards = action.board.lists.map( list => {
         const { cards, ...noCards } = list;
         return cards;
@@ -25,17 +25,10 @@ export default function cardsReducer(state = [], action) {
         }
       });
     case 'FETCH_CARD_SUCCESS':
-    if (state.length === 0) {
-      return [...state, action.card]
-    } else {
-      return state.map(card => {
-        if (card.id === action.card.id) {
-          return action.card;
-        } else {
-          return card;
-        }
-      });
-    }
+      excludedCards = state.filter(card => card.id !== action.card.id);
+      const {comments, ...cardWithoutComments} = action.card;
+
+      return [...state, cardWithoutComments];
     default:
       return state;
   }
