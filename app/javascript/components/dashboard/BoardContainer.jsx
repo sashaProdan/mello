@@ -22,21 +22,21 @@ class BoardContainer extends React.Component {
     const isCardShowing = this.props.match.url.split('/')[1] === 'cards';
 
     if (isCardShowing) {
-      // store.subscribe(this.fetchBoard);
-      const card = store.getState().cards.find(card => card.id === id);
-
-      if (card) {
-        store.dispatch(actions.fetchBoard(card.board_id));
-      }
+      store.subscribe(this.fetchBoard);
     } else {
       store.dispatch(actions.fetchBoard(id));
     }
   }
 
   fetchBoard = () => {
+    const id = Number(this.props.match.params.id);
     const store = this.context.store;
+    const card = store.getState().cards.find(card => card.id === id);
 
-    this.setState({ isFetching: true });
+    if (card && !this.state.isFetching) {
+      this.setState({ isFetching: true });
+      store.dispatch(actions.fetchBoard(card.board_id));
+    }
   }
 
   render() {
