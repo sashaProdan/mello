@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import TopNav from './shared/TopNav';
 import BoardsDashboardContainer from './dashboard/BoardsDashboardContainer';
 import BoardContainer from './dashboard/BoardContainer';
-import CardContainer from './dashboard/CardContainer';
+import CardContainer from './dashboard/card/CardContainer';
 
 import { fetchBoards } from '../actions/BoardActions';
 

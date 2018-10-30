@@ -5,22 +5,42 @@ import * as actions from '../../actions/BoardActions';
 import List from './List';
 import ListContainer from './ListContainer';
 import BoardHeader from './BoardHeader';
-import CardContainer from './CardContainer';
+import CardContainer from './card/CardContainer';
 
 class BoardContainer extends React.Component {
   static contextTypes = {
     store: PropTypes.object,
   };
 
+  state = {
+    isFetching: false,
+  }
+
   componentDidMount() {
     const id = Number(this.props.match.params.id);
     const store = this.context.store;
+    const isCardShowing = this.props.match.url.split('/')[1] === 'cards';
 
-    store.dispatch(actions.fetchBoard(id));
+    if (isCardShowing) {
+      // store.subscribe(this.fetchBoard);
+      const card = store.getState().cards.find(card => card.id === id);
+
+      if (card) {
+        store.dispatch(actions.fetchBoard(card.board_id));
+      }
+    } else {
+      store.dispatch(actions.fetchBoard(id));
+    }
+  }
+
+  fetchBoard = () => {
+    const store = this.context.store;
+
+    this.setState({ isFetching: true });
   }
 
   render() {
-    const isCardShowing = document.URL.split('/')[3] === 'cards';
+    const isCardShowing = this.props.match.url.split('/')[1] === 'cards';
     const id = Number(this.props.match.params.id);
     const store = this.context.store;
     let board;

@@ -24,6 +24,18 @@ export default function cardsReducer(state = [], action) {
           return card;
         }
       });
+    case 'FETCH_CARD_SUCCESS':
+    if (state.length === 0) {
+      return [...state, action.card]
+    } else {
+      return state.map(card => {
+        if (card.id === action.card.id) {
+          return action.card;
+        } else {
+          return card;
+        }
+      });
+    }
     default:
       return state;
   }

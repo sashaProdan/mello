@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import CardDetailsContainer from './CardDetailsContainer';
+
 class CardMainContainer extends React.Component {
   static contextTypes = {
     store: PropTypes.object,
@@ -9,38 +11,15 @@ class CardMainContainer extends React.Component {
   render() {
     const store = this.context.store;
     const card = this.props.card;
-    const labels = card.labels.map((label, i) => (
-      <div className="member-container">
-        <div className={`${label} label colorblindable`}></div>
-      </div>
-    ));
+    const list = this.props.list;
 
     return (
       <section className="modal-main">
         <ul className="modal-outer-list">
-          <li className="details-section">
-            <ul className="modal-details-list">
-              <li className="labels-section">
-                <h3>Labels</h3>
-                {labels}
-                <div className="member-container"><i className="plus-icon sm-icon"></i>
-                </div>
-              </li>
-              <li className="due-date-section">
-                <h3>Due Date</h3>
-                <div id="dueDateDisplay" className="overdue completed">
-                  <input id="dueDateCheckbox" type="checkbox" className="checkbox" checked="" />Aug 4 at 10:42 AM <span>(past due)</span>
-                </div>
-              </li>
-            </ul>
-            <form className="description">
-              <p>Description</p>
-              <span id="description-edit" className="link">Edit</span>
-              <p className="textarea-overlay">{card.description}</p>
-              <p id="description-edit-options" className="hidden">You have unsaved edits on this field. <span className="link">View edits</span> - <span className="link">Discard</span>
-              </p>
-            </form>
-          </li>
+          <CardDetailsContainer
+            card={card}
+            list={list}
+          />
           <li className="comment-section">
             <h2 className="comment-icon icon">Add Comment</h2>
             <div>
