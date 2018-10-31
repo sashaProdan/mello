@@ -71,12 +71,10 @@ const apiClient = {
       .then(callback)
       .catch(logError);
   },
-  editCard: function(id, title, callback) {
-    return axios.put(routes.CARD_URL(id), {
+  editCard: function(cardId, list_id, attr, callback) {
+    return axios.put(routes.CARD_URL(cardId), {
       list_id,
-      card: {
-        title,
-      }
+      card: attr,
     })
       .then(unwrapData)
       .then(callback)

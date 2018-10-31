@@ -36,10 +36,10 @@ export function createCard(id, title, callback) {
   }
 }
 
-export function editCard(id, title, callback) {
+export function editCard(cardId, listId, attributes, callback) {
   return function(dispatch) {
     dispatch(editCardRequest());
-    apiClient.editCard(id, title, updatedCard => {
+    apiClient.editCard(cardId, listId, attributes, updatedCard => {
       dispatch(editCardSuccess(updatedCard))
 
       if (callback) { callback(updatedCard); }
