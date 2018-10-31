@@ -1,14 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import * as actions from '../../../actions/CardActions';
-
-
 class CardHeader extends React.Component {
-  static contextTypes = {
-    store: PropTypes.object,
-  };
-
   state = {
     title: this.props.card.title,
   }
@@ -19,20 +12,10 @@ class CardHeader extends React.Component {
 
   handleKeyPress = (e) => {
     if (e.key === 'Enter') {
-      this.handleSubmit(e);
+      const title = this.state.title;
+      this.props.onSubmit(e, { title });
+      this.refs.textarea.blur();
     }
-  }
-
-  handleSubmit = (e) => {
-    e.preventDefault();
-
-    const cardId = this.props.card.id;
-    const listId = this.props.list.id;
-    const store = this.context.store;
-    const title = this.state.title;
-
-    store.dispatch(actions.editCard(cardId, listId, {title}));
-    this.refs.textarea.blur();
   }
 
   render() {

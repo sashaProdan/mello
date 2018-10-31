@@ -22,6 +22,18 @@ class CardContainer extends React.Component {
     this.props.history.goBack();
   }
 
+  handleSubmit = (e, attr) => {
+    e.preventDefault();
+
+    const store = this.context.store;
+    const id = Number(this.props.match.params.id);
+    const card = store.getState().cards.find(card => card.id === id);
+    const cardId = card.id;
+    const listId = card.list_id;
+
+    store.dispatch(actions.editCard(cardId, listId, attr));
+  }
+
   render() {
     const store = this.context.store;
     const id = Number(this.props.match.params.id);
@@ -43,7 +55,7 @@ class CardContainer extends React.Component {
             ></i>
             <CardHeader
               card={card}
-              list={list}
+              onSubmit={this.handleSubmit}
             />
             <CardMainContainer
               card={card}
