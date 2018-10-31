@@ -29,6 +29,10 @@ export default function cardsReducer(state = [], action) {
       const {comments, ...cardWithoutComments} = action.card;
 
       return [...state, cardWithoutComments];
+    case 'DELETE_CARD_SUCCESS':
+      const remainingCards = state.filter(card => card.id !== action.id);
+
+      return remainingCards;
     default:
       return state;
   }

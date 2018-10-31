@@ -11,7 +11,8 @@ import { fetchBoards } from '../actions/BoardActions';
 
 class Application extends React.Component {
   static contextTypes = {
-    store: PropTypes.object
+    store: PropTypes.object,
+    history: PropTypes.object,
   }
 
   componentDidMount() {
@@ -29,9 +30,9 @@ class Application extends React.Component {
     return (
       <div>
         <TopNav />
-          <Route path='/' exact component={BoardsDashboardContainer} />
-          <Route path='/(boards|cards)/:id' exact component={BoardContainer} />
-          <Route path='/cards/:id' exact component={CardContainer} />
+        <Route path='/' exact component={BoardsDashboardContainer} />
+        <Route path='/(boards|cards)/:id' exact component={BoardContainer} />
+        <Route path='/cards/:id' exact component={CardContainer} />
       </div>
     );
   }
