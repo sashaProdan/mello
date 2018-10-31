@@ -43,6 +43,16 @@ class Api::CardsController < ApplicationController
     render 'api/shared/error', status: 404
   end
 
+  def destroy
+    @card = Card.find(params[:id])
+
+    @card.destroy
+
+  rescue ActiveRecord::RecordNotFound
+    @error = 'No card with that id exists'
+    render 'api/shared/error', status: 404
+  end
+
   private
 
   def card_params

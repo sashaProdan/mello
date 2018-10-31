@@ -2,10 +2,9 @@ Rails.application.routes.draw do
   root to: 'home#index'
 
   namespace :api do
-    resources :boards, only: [:index, :create, :show] do
-    end
+    resources :boards, only: [:index, :create, :show]
     resources :lists, only: [:create, :update]
-    resources :cards, only: [:create, :show, :update]
+    resources :cards, only: [:create, :show, :update, :destroy]
     resources :comments, only: [:create]
   end
 
