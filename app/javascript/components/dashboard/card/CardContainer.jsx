@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { withRouter } from 'react-router-dom';
 import * as actions from '../../../actions/CardActions';
 
 import CardHeader from './CardHeader';
@@ -9,6 +10,7 @@ import CardSidebarContainer from './CardSidebarContainer';
 class CardContainer extends React.Component {
   static contextTypes = {
     store: PropTypes.object,
+    history: PropTypes.object,
   };
 
   componentDidMount() {
@@ -19,7 +21,12 @@ class CardContainer extends React.Component {
   }
 
   handleCloseClick = (e) => {
-    this.props.history.goBack();
+    const { history: { push } } = this.props;
+    const store = this.context.store;
+    const id = Number(this.props.match.params.id);
+    const card = store.getState().cards.find(card => card.id === id);
+
+    push(`/boards/${card.board_id}`);
   }
 
   handleSubmit = (e, attr) => {
@@ -74,4 +81,4 @@ class CardContainer extends React.Component {
   }
 }
 
-export default CardContainer;
+export default withRouter(CardContainer);
