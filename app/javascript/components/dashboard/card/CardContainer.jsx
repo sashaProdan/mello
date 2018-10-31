@@ -55,6 +55,7 @@ class CardContainer extends React.Component {
             ></i>
             <CardHeader
               card={card}
+              listTitle={list.title}
               onSubmit={this.handleSubmit}
             />
             <CardMainContainer

@@ -20,7 +20,6 @@ class CardHeader extends React.Component {
 
   render() {
     const card = this.props.card;
-    const list = this.props.list;
 
     return (
       <header>
@@ -34,7 +33,7 @@ class CardHeader extends React.Component {
           ref='textarea'
         >
         </textarea>
-        <p>in list <a className="link">{list.title}</a><i className="sub-icon sm-icon"></i>
+        <p>in list <a className="link">{this.props.listTitle}</a><i className="sub-icon sm-icon"></i>
         </p>
       </header>
     )
