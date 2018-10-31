@@ -3,11 +3,15 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 
 class Comment extends React.Component {
+  formatTime(minutes) {
+    if (minutes) {
+
+    }
+  }
+
   render() {
     const comment = this.props.comment;
-    const now = moment();
-    const time = moment(comment.created_at);
-    const diff = Math.floor((now - time)/60000);
+    const time = moment(comment.updated_at).from(moment());
 
     return (
       <li>
@@ -17,7 +21,7 @@ class Comment extends React.Component {
         <h3>teamToo()</h3>
         <div className="comment static-comment"><span>{comment.text}</span>
         </div>
-        <small>{diff} minutes ago - <span className="link">Edit</span> - <span className="link">Delete</span></small>
+        <small>{time} - <span className="link">Edit</span> - <span className="link">Delete</span></small>
         <div className="comment">
           <label>
             <textarea
