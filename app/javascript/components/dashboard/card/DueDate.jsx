@@ -8,6 +8,13 @@ class DueDate extends React.Component {
     store: PropTypes.object,
   };
 
+  state = {
+    fields: {
+      date: moment(this.props.dueDate).toDate(),
+      time: '',
+    }
+  }
+
   componentDidMount() {
     this.picker = new Pikaday({
       field: this.refs.dateInput,
@@ -15,7 +22,7 @@ class DueDate extends React.Component {
       container: this.refs.calendarWidget,
       firstDay: 1,
       yearRange: 10,
-      defaultDate: moment().add(1, 'day').toDate(),
+      defaultDate: this.state.fields.date,
       setDefaultDate: true,
       format: 'M/D/YYYY',
       i18n: {
@@ -29,7 +36,16 @@ class DueDate extends React.Component {
         return moment(date).format(format);
       }
     });
+    const time = this.getDefaultTime(this.props.dueDate);
+    const fields = Object.assign({}, this.state.fields, { time });
+
+    this.setState({ fields })
     this.picker.show();
+  }
+
+  getDefaultTime = (date) => {
+    const dueDate = this.props.dueDate;
+     return dueDate ? moment(this.props.dueDate).format('hh:mm A') : '';
   }
 
   handleCloseClick = (e) => {
@@ -39,6 +55,7 @@ class DueDate extends React.Component {
   }
 
   render() {
+    const time = this.state.fields.time;
     return (
       <div>
         <header>
@@ -62,7 +79,7 @@ class DueDate extends React.Component {
               <div className="datepicker-select-time">
                 <label>
                   Time
-                  <input type="text" placeholder="Enter time" value="12:00 PM" />
+                  <input type="text" placeholder="Enter time" value={time} />
                 </label>
               </div>
               <div ref='calendarWidget' id="calendar-widget"></div>
