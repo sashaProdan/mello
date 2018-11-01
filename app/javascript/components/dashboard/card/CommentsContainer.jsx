@@ -8,6 +8,10 @@ class CommentsContainer extends React.Component {
     store: PropTypes.object,
   };
 
+  handleSubmit = (e) => {
+
+  }
+
   render() {
     const id = this.props.cardId;
     const store = this.context.store;
@@ -16,6 +20,7 @@ class CommentsContainer extends React.Component {
       <Comment
         key={i}
         comment={comment}
+        onSubmit={this.handleSubmit}
       />
     ));
     return (
