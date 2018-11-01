@@ -53,10 +53,9 @@ class CardContainer extends React.Component {
 
   handleActionClick = (obj) => {
     this.setState({popover: obj});
-    console.log(this.state.popover.pos)
   }
 
-  handleCloseClick = () => {
+  handlePopOverCloseClick = () => {
     const popover = Object.assign({}, this.state.popover, {visible: false});
 
     this.setState({ popover });
@@ -102,7 +101,9 @@ class CardContainer extends React.Component {
             {...this.state.popover}
           >
             <DueDate
-              onCloseClick={this.handleCloseClick}
+              onCloseClick={this.handlePopOverCloseClick}
+              cardId={card.id}
+              dueDate={card.due_date}
             />
           </PopOver>
         </div>
