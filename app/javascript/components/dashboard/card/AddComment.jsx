@@ -12,12 +12,27 @@ class AddComment extends React.Component {
     }
   }
 
+  resetState = () => {
+    console.log('ping');
+    const fields = Object.assign({}, this.state.fields, { text: '' });
+
+    this.setState({ fields });
+  }
+
   handleChange = (e) => {
     const fields = Object.assign({}, this.state.fields, {
       [e.target.name]: e.target.value,
     });
 
     this.setState({ fields });
+  }
+
+  handleClick = (e) => {
+    const id = this.props.id;
+    const text = this.state.fields.text;
+
+    this.props.onSubmit(id, text);
+    this.resetState();
   }
 
   render() {
@@ -37,7 +52,7 @@ class AddComment extends React.Component {
                 required=""
                 rows="1"
                 placeholder="Write a comment..."
-                defaultValue={text}
+                value={text}
                 onChange={this.handleChange}
               >
               </textarea>

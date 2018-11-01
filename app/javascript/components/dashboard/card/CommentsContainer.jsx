@@ -8,10 +8,6 @@ class CommentsContainer extends React.Component {
     store: PropTypes.object,
   };
 
-  handleSubmit = (e) => {
-
-  }
-
   render() {
     const id = this.props.cardId;
     const store = this.context.store;
@@ -20,7 +16,6 @@ class CommentsContainer extends React.Component {
       <Comment
         key={i}
         comment={comment}
-        onSubmit={this.handleSubmit}
       />
     ));
     return (
@@ -30,7 +25,7 @@ class CommentsContainer extends React.Component {
           <li className="not-implemented">Show Details</li>
         </ul>
         <ul className="modal-activity-list">
-          {this.props.comCount > 0 ? commentComponents : ''}
+          {comments.length > 0 ? commentComponents : ''}
         </ul>
       </li>
     )

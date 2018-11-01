@@ -86,6 +86,17 @@ const apiClient = {
       .then(callback)
       .catch(logError);
   },
+  createComment: function(card_id, text, callback) {
+    return axios.post(routes.COMMENTS_INDEX_URL, {
+      card_id,
+      comment: {
+        text,
+      }
+    })
+      .then(unwrapData)
+      .then(callback)
+      .catch(logError);
+  },
 };
 
 export default apiClient;
