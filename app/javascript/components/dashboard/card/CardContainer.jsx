@@ -6,12 +6,22 @@ import * as actions from '../../../actions/CardActions';
 import CardHeader from './CardHeader';
 import CardMainContainer from './CardMainContainer';
 import CardSidebarContainer from './CardSidebarContainer';
+import PopOver from './PopOver';
+import DueDate from './DueDate';
 
 class CardContainer extends React.Component {
   static contextTypes = {
     store: PropTypes.object,
     history: PropTypes.object,
   };
+
+  state = {
+    popover: {
+      type: '',
+      pos: {},
+      visible: false,
+    },
+  }
 
   componentDidMount() {
     const id = Number(this.props.match.params.id);
@@ -41,39 +51,61 @@ class CardContainer extends React.Component {
     store.dispatch(actions.editCard(cardId, listId, attr));
   }
 
+  handleActionClick = (obj) => {
+    this.setState({popover: obj});
+    console.log(this.state.popover.pos)
+  }
+
+  handleCloseClick = () => {
+    const popover = Object.assign({}, this.state.popover, {visible: false});
+
+    this.setState({ popover });
+  }
+
   render() {
     const store = this.context.store;
     const id = Number(this.props.match.params.id);
     const card = store.getState().cards.find(card => card.id === id);
     const list = store.getState().lists.find(list => list.id === card.list_id);
+    const type = this.state.popover.type;
+    const pos = this.state.popover.pos;
 
     if (card && list) {
       return (
-        <div id="modal-container">
-          <div
-            className="screen"
-            onClick={this.handleCloseClick}
-          >
-          </div>
-          <div id="modal">
-            <i
-              className="x-icon icon close-modal"
+        <div>
+          <div id="modal-container">
+            <div
+              className="screen"
               onClick={this.handleCloseClick}
-            ></i>
-            <CardHeader
-              card={card}
-              listTitle={list.title}
-              onSubmit={this.handleSubmit}
-            />
-            <CardMainContainer
-              card={card}
-            />
-            <CardSidebarContainer
-              card={card}
-            />
+            >
+            </div>
+            <div id="modal">
+              <i
+                className="x-icon icon close-modal"
+                onClick={this.handleCloseClick}
+              ></i>
+              <CardHeader
+                card={card}
+                listTitle={list.title}
+                onSubmit={this.handleSubmit}
+              />
+              <CardMainContainer
+                card={card}
+              />
+              <CardSidebarContainer
+                card={card}
+                onActionClick={this.handleActionClick}
+              />
+            </div>
           </div>
+          <PopOver
+            {...this.state.popover}
+          >
+            <DueDate
+              onCloseClick={this.handleCloseClick}
+            />
+          </PopOver>
         </div>
-
       )
     } else {
       return (null)
