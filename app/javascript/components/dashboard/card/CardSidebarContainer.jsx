@@ -39,13 +39,31 @@ class CardSidebarContainer extends React.Component {
     this.props.onActionClick({type, pos, visible: this.state.popOverVisible});
   }
 
+  handleLabelsClick = (e) => {
+    const type = 'labels';
+    const $target = $(e.target);
+    let pos = $target.offset();
+    pos = Object.assign({}, pos, {
+      top: pos.top + 33
+    })
+
+    this.setState({popOverVisible: true});
+    this.props.onActionClick({type, pos, visible: this.state.popOverVisible});
+  }
+
   render() {
     return (
       <aside className="modal-buttons">
         <h2>Add</h2>
         <ul>
           <li className="member-button"><i className="person-icon sm-icon"></i>Members</li>
-          <li className="label-button"><i className="label-icon sm-icon"></i>Labels</li>
+          <li
+            className="label-button"
+            onClick={this.handleLabelsClick}
+          >
+            <i className="label-icon sm-icon"></i>
+            Labels
+          </li>
           <li className="checklist-button"><i className="checklist-icon sm-icon"></i>Checklist</li>
           <li
             className="date-button"
