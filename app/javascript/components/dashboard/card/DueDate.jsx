@@ -81,7 +81,6 @@ class DueDate extends React.Component {
   }
 
   render() {
-    // console.log(this.state.fields.time);
     const time = this.state.fields.time;
 
     return (
