@@ -68,6 +68,16 @@ class DueDate extends React.Component {
     const fields = Object.assign({}, this.state.fields, { date });
 
     this.props.onDateSubmit(e, { due_date: date });
+    this.handleCloseClick(e);
+  }
+
+  handleRemove = (e) => {
+    e.preventDefault();
+
+    const due_date = null;
+
+    this.props.onDateSubmit(e, { due_date });
+    this.handleCloseClick(e);
   }
 
   render() {
@@ -115,7 +125,13 @@ class DueDate extends React.Component {
             >
               Save
             </button>
-            <button className="button red-button" type="reset">Remove</button>
+            <button
+              className="button red-button"
+              type="reset"
+              onClick={this.handleRemove}
+            >
+              Remove
+            </button>
           </form>
         </div>
       </div>
