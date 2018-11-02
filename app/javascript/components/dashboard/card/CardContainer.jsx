@@ -53,7 +53,6 @@ class CardContainer extends React.Component {
             onCloseClick={this.handlePopOverCloseClick}
             labels={card.labels}
             cardId={card.id}
-            dueDate={card.due_date}
             onLabelsSubmit={this.handleSubmit}
           />
         )
@@ -61,9 +60,7 @@ class CardContainer extends React.Component {
         return (
           <CopyCard
             onCloseClick={this.handlePopOverCloseClick}
-            labels={card.labels}
-            cardId={card.id}
-            dueDate={card.due_date}
+            card={card}
             onLabelsSubmit={this.handleSubmit}
           />
         )

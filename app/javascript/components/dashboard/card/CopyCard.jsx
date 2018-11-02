@@ -6,6 +6,27 @@ class CopyCard extends React.Component {
     store: PropTypes.object,
   };
 
+  state = {
+    board: '',
+    card: {
+      title: this.props.card.title,
+      comments_count: this.props.card.comments_count,
+    }
+  }
+
+  componentDidMount() {
+    const board = this.getBoard(this.props.card.board_id);
+    console.log(board);
+
+    this.setState({ board })
+  }
+
+  getBoard = (id) => {
+    const store = this.context.store;
+
+    return store.getState().boards.filter(board => board.id === id);
+  }
+
   handleCloseClick = (e) => {
     e.preventDefault();
 
@@ -13,6 +34,9 @@ class CopyCard extends React.Component {
   }
 
   render () {
+    const card = this.state.card;
+    // const board = this.state.board;
+
     return (
       <div>
         <header>
@@ -26,12 +50,17 @@ class CopyCard extends React.Component {
         </header>
         <div className="content">
           <label>Title</label>
-          <textarea name="name" style={{marginBottom: 12}}>Card title</textarea>
+          <textarea
+            name="name"
+            style={{marginBottom: 12}}
+            value={card.title}
+          >
+          </textarea>
           <label>Keep…</label>
           <div className="check-div clearfix">
             <input id="keep-comments" type="checkbox" name="comments" checked="checked" />
             <label for="keep-comments">
-              Comments <span className="quiet">(1)</span>
+              Comments <span className="quiet">({card.comments_count})</span>
             </label>
           </div>
           <br />
