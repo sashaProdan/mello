@@ -25,7 +25,7 @@ class CommentsContainer extends React.Component {
           <li className="not-implemented">Show Details</li>
         </ul>
         <ul className="modal-activity-list">
-          {this.props.comCount > 0 ? comments : ''}
+          {comments.length > 0 ? commentComponents : ''}
         </ul>
       </li>
     )

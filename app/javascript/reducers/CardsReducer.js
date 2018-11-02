@@ -15,7 +15,7 @@ export default function cardsReducer(state = [], action) {
       return state.concat(newCard);
     case 'EDIT_CARD_SUCCESS':
       const card = state.find(card => card.id === action.card.id);
-      const updatedCard = Object.assign({}, card, {title: action.card.title});
+      const updatedCard = Object.assign({}, card, action.card);
 
       return state.map(card => {
         if (card.id === updatedCard.id) {
@@ -29,6 +29,10 @@ export default function cardsReducer(state = [], action) {
       const {comments, ...cardWithoutComments} = action.card;
 
       return [...state, cardWithoutComments];
+    case 'DELETE_CARD_SUCCESS':
+      const remainingCards = state.filter(card => card.id !== action.id);
+
+      return remainingCards;
     default:
       return state;
   }

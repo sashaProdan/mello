@@ -1,15 +1,27 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Route, Switch, BrowserRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import * as actions from '../../../actions/CardActions';
 
 import CardHeader from './CardHeader';
 import CardMainContainer from './CardMainContainer';
+import CardSidebarContainer from './CardSidebarContainer';
+import PopOver from './PopOver';
+import DueDate from './DueDate';
 
 class CardContainer extends React.Component {
   static contextTypes = {
     store: PropTypes.object,
+    history: PropTypes.object,
   };
+
+  state = {
+    popover: {
+      type: '',
+      pos: {},
+      visible: false,
+    },
+  }
 
   componentDidMount() {
     const id = Number(this.props.match.params.id);
@@ -19,7 +31,34 @@ class CardContainer extends React.Component {
   }
 
   handleCloseClick = (e) => {
-    this.props.history.goBack();
+    const { history: { push } } = this.props;
+    const store = this.context.store;
+    const id = Number(this.props.match.params.id);
+    const card = store.getState().cards.find(card => card.id === id);
+
+    push(`/boards/${card.board_id}`);
+  }
+
+  handleSubmit = (e, attr) => {
+    e.preventDefault();
+
+    const store = this.context.store;
+    const id = Number(this.props.match.params.id);
+    const card = store.getState().cards.find(card => card.id === id);
+    const cardId = card.id;
+    const listId = card.list_id;
+
+    store.dispatch(actions.editCard(cardId, listId, attr));
+  }
+
+  handleActionClick = (obj) => {
+    this.setState({popover: obj});
+  }
+
+  handlePopOverCloseClick = () => {
+    const popover = Object.assign({}, this.state.popover, {visible: false});
+
+    this.setState({ popover });
   }
 
   render() {
@@ -27,52 +66,48 @@ class CardContainer extends React.Component {
     const id = Number(this.props.match.params.id);
     const card = store.getState().cards.find(card => card.id === id);
     const list = store.getState().lists.find(list => list.id === card.list_id);
+    const type = this.state.popover.type;
+    const pos = this.state.popover.pos;
 
     if (card && list) {
       return (
-        <div id="modal-container">
-          <div
-            className="screen"
-            onClick={this.handleCloseClick}
-          >
-          </div>
-          <div id="modal">
-            <i
-              className="x-icon icon close-modal"
+        <div>
+          <div id="modal-container">
+            <div
+              className="screen"
               onClick={this.handleCloseClick}
-            ></i>
-            <CardHeader
-              card={card}
-              list={list}
-            />
-            <CardMainContainer
-              card={card}
-            />
-            <aside className="modal-buttons">
-              <h2>Add</h2>
-              <ul>
-                <li className="member-button"><i className="person-icon sm-icon"></i>Members</li>
-                <li className="label-button"><i className="label-icon sm-icon"></i>Labels</li>
-                <li className="checklist-button"><i className="checklist-icon sm-icon"></i>Checklist</li>
-                <li className="date-button not-implemented"><i className="clock-icon sm-icon"></i>Due Date</li>
-                <li className="attachment-button not-implemented"><i className="attachment-icon sm-icon"></i>Attachment</li>
-              </ul>
-              <h2>Actions</h2>
-              <ul>
-                <li className="move-button"><i className="forward-icon sm-icon"></i>Move</li>
-                <li className="copy-button"><i className="card-icon sm-icon"></i>Copy</li>
-                <li className="subscribe-button"><i className="sub-icon sm-icon"></i>Subscribe<i className="check-icon sm-icon"></i>
-                </li>
-                <hr />
-                <li className="archive-button"><i className="file-icon sm-icon "></i>Archive</li>
-              </ul>
-              <ul className="light-list">
-                <li className="not-implemented">Share and more...</li>
-              </ul>
-            </aside>
+            >
+            </div>
+            <div id="modal">
+              <i
+                className="x-icon icon close-modal"
+                onClick={this.handleCloseClick}
+              ></i>
+              <CardHeader
+                card={card}
+                listTitle={list.title}
+                onSubmit={this.handleSubmit}
+              />
+              <CardMainContainer
+                card={card}
+              />
+              <CardSidebarContainer
+                card={card}
+                onActionClick={this.handleActionClick}
+              />
+            </div>
           </div>
+          <PopOver
+            {...this.state.popover}
+          >
+            <DueDate
+              onCloseClick={this.handlePopOverCloseClick}
+              cardId={card.id}
+              dueDate={card.due_date}
+              onDateSubmit={this.handleSubmit}
+            />
+          </PopOver>
         </div>
-
       )
     } else {
       return (null)
@@ -80,4 +115,4 @@ class CardContainer extends React.Component {
   }
 }
 
-export default CardContainer;
+export default withRouter(CardContainer);

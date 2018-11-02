@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import * as actions from '../../../actions/CommentActions';
 
 import CardDetailsContainer from './CardDetailsContainer';
 import AddComment from './AddComment';
@@ -9,6 +10,12 @@ class CardMainContainer extends React.Component {
   static contextTypes = {
     store: PropTypes.object,
   };
+
+  handleSubmit = (id, text) => {
+    const store = this.context.store;
+
+    store.dispatch(actions.createComment(id, text));
+  }
 
   render() {
     const store = this.context.store;
@@ -24,10 +31,10 @@ class CardMainContainer extends React.Component {
           />
           <AddComment
             id={card.id}
+            onSubmit={this.handleSubmit}
           />
           <CommentsContainer
             cardId={card.id}
-            comCount={card.comments_count}
           />
         </ul>
       </section>

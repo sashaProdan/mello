@@ -71,11 +71,26 @@ const apiClient = {
       .then(callback)
       .catch(logError);
   },
-  editCard: function(id, title, callback) {
-    return axios.put(routes.CARD_URL(id), {
+  editCard: function(cardId, list_id, attr, callback) {
+    return axios.put(routes.CARD_URL(cardId), {
       list_id,
-      card: {
-        title,
+      card: attr,
+    })
+      .then(unwrapData)
+      .then(callback)
+      .catch(logError);
+  },
+  deleteCard: function(id, callback) {
+    return axios.delete(routes.CARD_URL(id))
+      .then(unwrapData)
+      .then(callback)
+      .catch(logError);
+  },
+  createComment: function(card_id, text, callback) {
+    return axios.post(routes.COMMENTS_INDEX_URL, {
+      card_id,
+      comment: {
+        text,
       }
     })
       .then(unwrapData)

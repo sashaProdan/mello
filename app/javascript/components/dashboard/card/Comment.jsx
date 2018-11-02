@@ -1,20 +1,35 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import moment from 'moment';
 
 class Comment extends React.Component {
+  formatTime(minutes) {
+    if (minutes) {
+
+    }
+  }
+
   render() {
+    const comment = this.props.comment;
+    const time = moment(comment.updated_at).from(moment());
+
     return (
       <li>
         <div className="member-container">
-          <div className="card-member">TP</div>
+          <div className="card-member">tT</div>
         </div>
-        <h3>Taylor Peat</h3>
-        <div className="comment static-comment"><span>The activities are not functional.</span>
+        <h3>teamToo()</h3>
+        <div className="comment static-comment"><span>{comment.text}</span>
         </div>
-        <small>22 minutes ago - <span className="link">Edit</span> - <span className="link">Delete</span></small>
+        <small>{time} - <span className="link">Edit</span> - <span className="link">Delete</span></small>
         <div className="comment">
           <label>
-            <textarea required="" rows="1">The activities have not been implemented yet.</textarea>
+            <textarea
+              required=""
+              rows="1"
+              value={comment.text}
+            >
+            </textarea>
             <div>
               <a className="light-button card-icon sm-icon"></a>
               <a className="light-button smiley-icon sm-icon"></a>
