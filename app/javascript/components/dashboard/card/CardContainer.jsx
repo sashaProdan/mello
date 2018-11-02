@@ -104,6 +104,7 @@ class CardContainer extends React.Component {
               onCloseClick={this.handlePopOverCloseClick}
               cardId={card.id}
               dueDate={card.due_date}
+              onDateSubmit={this.handleSubmit}
             />
           </PopOver>
         </div>

@@ -10,7 +10,7 @@ class DueDate extends React.Component {
 
   state = {
     fields: {
-      date: moment(this.props.dueDate).toDate(),
+      date: this.props.dueDate,
       time: '',
     }
   }
@@ -22,7 +22,7 @@ class DueDate extends React.Component {
       container: this.refs.calendarWidget,
       firstDay: 1,
       yearRange: 10,
-      defaultDate: this.state.fields.date,
+      defaultDate: moment(this.state.fields.date).toDate(),
       setDefaultDate: true,
       format: 'M/D/YYYY',
       i18n: {
@@ -44,8 +44,7 @@ class DueDate extends React.Component {
   }
 
   getDefaultTime = (date) => {
-    const dueDate = this.props.dueDate;
-     return dueDate ? moment(this.props.dueDate).format('hh:mm A') : '';
+    return date ? moment(date).format('hh:mm A') : '';
   }
 
   handleCloseClick = (e) => {
@@ -54,8 +53,27 @@ class DueDate extends React.Component {
     this.props.onCloseClick();
   }
 
+  handleChange = (e) => {
+    const fields = Object.assign({}, this.state.fields, {
+      [e.target.name]: e.target.value,
+    });
+
+    this.setState({ fields })
+  }
+
+  handleSubmit = (e) => {
+    e.preventDefault();
+
+    const date = this.picker.getDate();
+    const fields = Object.assign({}, this.state.fields, { date });
+
+    this.props.onDateSubmit(e, { due_date: date });
+  }
+
   render() {
+    // console.log(this.state.fields.time);
     const time = this.state.fields.time;
+
     return (
       <div>
         <header>
@@ -79,12 +97,24 @@ class DueDate extends React.Component {
               <div className="datepicker-select-time">
                 <label>
                   Time
-                  <input type="text" placeholder="Enter time" value={time} />
+                  <input
+                    name='time'
+                    type="text"
+                    placeholder="Enter time"
+                    value={time}
+                    onChange={this.handleChange}
+                  />
                 </label>
               </div>
               <div ref='calendarWidget' id="calendar-widget"></div>
             </div>
-            <button className="button" type="submit">Save</button>
+            <button
+              className="button"
+              type="submit"
+              onClick={this.handleSubmit}
+            >
+              Save
+            </button>
             <button className="button red-button" type="reset">Remove</button>
           </form>
         </div>
