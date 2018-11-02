@@ -8,6 +8,7 @@ import CardMainContainer from './CardMainContainer';
 import CardSidebarContainer from './CardSidebarContainer';
 import PopOver from './PopOver';
 import DueDate from './DueDate';
+import Labels from './Labels';
 
 class CardContainer extends React.Component {
   static contextTypes = {
@@ -28,6 +29,36 @@ class CardContainer extends React.Component {
     const store = this.context.store;
 
     store.dispatch(actions.fetchCard(id));
+  }
+
+  getChild = (type) => {
+    const store = this.context.store;
+    const id = Number(this.props.match.params.id);
+    const card = store.getState().cards.find(card => card.id === id);
+
+    switch (type) {
+      case 'due-date':
+        return (
+          <DueDate
+            onCloseClick={this.handlePopOverCloseClick}
+            cardId={card.id}
+            dueDate={card.due_date}
+            onDateSubmit={this.handleSubmit}
+          />
+        )
+      case 'labels':
+        return (
+          <Labels
+            onCloseClick={this.handlePopOverCloseClick}
+            labels={card.labels}
+            cardId={card.id}
+            dueDate={card.due_date}
+            onLabelsSubmit={this.handleSubmit}
+          />
+        )
+      default:
+        return (null)
+    }
   }
 
   handleCloseClick = (e) => {
@@ -100,12 +131,7 @@ class CardContainer extends React.Component {
           <PopOver
             {...this.state.popover}
           >
-            <DueDate
-              onCloseClick={this.handlePopOverCloseClick}
-              cardId={card.id}
-              dueDate={card.due_date}
-              onDateSubmit={this.handleSubmit}
-            />
+            {this.getChild(type)}
           </PopOver>
         </div>
       )
