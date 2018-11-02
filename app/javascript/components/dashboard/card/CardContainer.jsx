@@ -50,9 +50,10 @@ class CardContainer extends React.Component {
         return (
           <Labels
             onCloseClick={this.handlePopOverCloseClick}
+            labels={card.labels}
             cardId={card.id}
             dueDate={card.due_date}
-            onDateSubmit={this.handleSubmit}
+            onLabelsSubmit={this.handleSubmit}
           />
         )
       default:

@@ -2,13 +2,59 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 class Labels extends React.Component {
+  static contextTypes = {
+    store: PropTypes.object,
+  };
+
+  state = {
+    labels: this.props.labels,
+  }
+
   handleCloseClick = (e) => {
     e.preventDefault();
 
     this.props.onCloseClick();
   }
-  
+
+  handleLabelToggle = (e) => {
+    const color = e.target.dataset.color;
+    const currLabels = this.state.labels;
+    let labels;
+
+    if (!currLabels.includes(color)) {
+      labels = [...currLabels, color];
+    } else {
+      labels = currLabels.filter(label => label !== color);
+    }
+
+    this.setState({ labels });
+    this.props.onLabelsSubmit(e, { labels });
+  }
+
   render() {
+    const store = this.context.store;
+    const allColors = ['green', 'yellow', 'orange', 'red', 'purple', 'blue'];
+    const selectedLabels = this.state.labels;
+    const labels = allColors.map((color, i) => {
+      const included = selectedLabels.includes(color);
+
+      return (
+        <li
+          key={i}
+        >
+          <div
+            className={`${color} colorblindable`}
+            data-id="1"
+            data-color={color}
+            onClick={this.handleLabelToggle}
+          >
+            <i className={(included ? 'check-icon' : '') + ' sm-icon'}></i>
+          </div>
+          <div className={`label-background ${color}`}></div>
+          <div className="label-background-overlay"></div><i className="edit-icon icon not-implemented"></i></li>
+      )
+    });
+
     return (
       <div id="add-options-labels-dropdown">
         <header>
@@ -24,30 +70,7 @@ class Labels extends React.Component {
           <input className="dropdown-input" placeholder="Search labels..." type="text" />
           <div className="labels-search-results">
             <ul className="label-list">
-              <li>
-                <div className="green colorblindable" data-id="1"><i className="check-icon sm-icon"></i></div>
-                <div className="label-background green"></div>
-                <div className="label-background-overlay"></div><i className="edit-icon icon not-implemented"></i></li>
-              <li>
-                <div className="yellow colorblindable" data-id="2"><i className="check-icon sm-icon"></i></div>
-                <div className="label-background yellow"></div>
-                <div className="label-background-overlay"></div><i className="edit-icon icon not-implemented"></i></li>
-              <li>
-                <div className="orange colorblindable" data-id="3"><i className="check-icon sm-icon"></i></div>
-                <div className="label-background orange"></div>
-                <div className="label-background-overlay"></div><i className="edit-icon icon not-implemented"></i></li>
-              <li>
-                <div className="red colorblindable" data-id="4"><i className="check-icon sm-icon"></i></div>
-                <div className="label-background red"></div>
-                <div className="label-background-overlay"></div><i className="edit-icon icon not-implemented"></i></li>
-              <li>
-                <div className="purple colorblindable" data-id="5"><i className="check-icon sm-icon"></i></div>
-                <div className="label-background purple"></div>
-                <div className="label-background-overlay"></div><i className="edit-icon icon not-implemented"></i></li>
-              <li>
-                <div className="blue colorblindable" data-id="6"><i className="check-icon sm-icon"></i></div>
-                <div className="label-background blue"></div>
-                <div className="label-background-overlay"></div><i className="edit-icon icon not-implemented"></i></li>
+              {labels}
             </ul>
             <ul className="light-list">
               <li className="not-implemented">Create a new label</li>
